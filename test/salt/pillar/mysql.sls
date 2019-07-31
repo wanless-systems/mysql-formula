@@ -15,14 +15,14 @@ mysql:
 
   server:
     # Use this account for database admin (defaults to root)
-    root_user: 'admin'
+    # root_user: 'admin'
     # root_password: '' - to have root@localhost without password
     root_password: 'somepass'
     root_password_hash: '*13883BDDBE566ECECC0501CDE9B293303116521A'
     user: mysql
     # If you only manage the dbs and users and the server is on
     # another host
-    host: 123.123.123.123
+    # host: 123.123.123.123
     # my.cnf sections changes
     mysqld:
       # you can use either underscore or hyphen in param names
@@ -41,11 +41,11 @@ mysql:
       # my.cnf param that not require value
       no-auto-rehash: noarg_present
 
-  salt_user:
-    salt_user_name: 'salt'
-    salt_user_password: 'someotherpass'
-    grants:
-      - 'all privileges'
+  # salt_user:
+  #   salt_user_name: 'salt'
+  #   salt_user_password: 'someotherpass'
+  #   grants:
+  #     - 'all privileges'
 
   # Manage config
   config:
@@ -77,8 +77,7 @@ mysql:
       present: False
   schema:
     foo:
-      load: True
-      source: salt://{{ tpldir }}/files/foo.schema
+      load: False
     bar:
       load: False
     baz:
@@ -112,26 +111,26 @@ mysql:
           escape: True
         - database: bar
           grants: ['all privileges']
-    bob:
-      password_hash: '*6C8989366EAF75BB670AD8EA7A7FC1176A95CEF4'
-      host: '%' # Any host
-      ssl: True
-      ssl-X509: True
-      ssl-SUBJECT: Subject
-      ssl-ISSUER: Name
-      ssl-CIPHER: Cipher
-      databases:
-        # https://github.com/saltstack/salt/issues/41178
-        # If you want to refer to databases using wildcards, turn off escape so
-        # the renderer does not escape them, enclose the string in '`' and
-        # use two '%'
-        - database: '`foo\_%%`'
-          grants: ['all privileges']
-          grant_option: True
-          escape: False
-        - database: bar
-          table: foobar
-          grants: ['select', 'insert', 'update', 'delete']
+    # bob:
+    #   password_hash: '*6C8989366EAF75BB670AD8EA7A7FC1176A95CEF4'
+    #   host: '%' # Any host
+    #   ssl: True
+    #   ssl-X509: True
+    #   ssl-SUBJECT: Subject
+    #   ssl-ISSUER: Name
+    #   ssl-CIPHER: Cipher
+    #   databases:
+    #     # https://github.com/saltstack/salt/issues/41178
+    #     # If you want to refer to databases using wildcards, turn off escape so
+    #     # the renderer does not escape them, enclose the string in '`' and
+    #     # use two '%'
+    #     - database: '`foo\_%%`'
+    #       grants: ['all privileges']
+    #       grant_option: True
+    #       escape: False
+    #     - database: bar
+    #       table: foobar
+    #       grants: ['select', 'insert', 'update', 'delete']
     nopassuser:
       password: ~
       host: localhost
