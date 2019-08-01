@@ -131,6 +131,12 @@ mysql_initialize:
     - makedirs: True
     - require:
       - pkg: {{ mysql.serverpkg }}
+  cmd.run:
+    - name: mysql_install_db --user=mysql --basedir=/usr --datadir={{ mysql_datadir }}
+    - runas: root
+    - creates: {{ mysql_datadir}}/mysql/
+    - require:
+      - pkg: {{ mysql.serverpkg }}
 {% endif %}
 
 {% if os_family in ['Gentoo'] %}
