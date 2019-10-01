@@ -138,22 +138,23 @@ mysql_salt_user_with_passwordless_root_user_grants:
 {% endif %}
 
 {% if os_family in ['RedHat', 'Suse'] %}
-mysql_root_password:
-  cmd.run:
-    - name: /bin/true
-    - unless: /bin/true
-  mysql_user.present:
-    - name: {{ mysql_root_user }}
-    - host: 'localhost'
-    {%- if mysql_root_hash != None %}
-    - password_hash: '{{ mysql_root_hash }}'
-    {%- elif mysql_root_pass != None %}
-    - password: '{{ mysql_root_pass }}'
-    {%- else %}
-    - allow_passwordless: True
-    {%- endif %}
-    - connection_host: '{{ mysql_host }}'
-    - connection_user: '{{ mysql_salt_user }}'
-    - connection_pass: '{{ mysql_salt_pass }}'
-    - connection_charset: utf8
+extend:
+    mysql_root_password:
+      cmd.run:
+        - name: /bin/true
+        - unless: /bin/true
+      mysql_user.present:
+        - name: {{ mysql_root_user }}
+        - host: 'localhost'
+        {%- if mysql_root_hash != None %}
+        - password_hash: '{{ mysql_root_hash }}'
+        {%- elif mysql_root_pass != None %}
+        - password: '{{ mysql_root_pass }}'
+        {%- else %}
+        - allow_passwordless: True
+        {%- endif %}
+        - connection_host: '{{ mysql_host }}'
+        - connection_user: '{{ mysql_salt_user }}'
+        - connection_pass: '{{ mysql_salt_pass }}'
+        - connection_charset: utf8
 {% endif %}
